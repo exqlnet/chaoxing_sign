@@ -1,0 +1,30 @@
+version: '2'
+services:
+  cx:
+    restart: always
+    image: "tiangolo/uwsgi-nginx:python3.8"
+    volumes:
+    - .:/cx
+    working_dir: "/cx"
+    environment:
+      UWSGI_INI: /cx/uwsgi.ini
+      LISTEN_PORT: 5000
+    ports:
+    - 8080:5000
+  cx_cron:
+    restart: always
+    image: "python:3.6"
+    volumes:
+      - .:/cx
+    working_dir: "/cx"
+    command: "python cx_cron.py"
+  redis:
+    restart: always
+    depends_on:
+      - cx
+    image: "redis:3.2"
+    volumes:
+    - ./data:/data
+    command: redis-server --appendonly yes
+    expose:
+      - 6379

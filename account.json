@@ -1,0 +1,9 @@
+[
+  {
+    "name": "exqlnet",
+    "username": "<username>",
+    "password": "<password>",
+    "sckey": "<sckey>",
+    "send_wechat": true
+  }
+]
