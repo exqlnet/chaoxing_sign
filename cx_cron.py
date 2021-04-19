@@ -17,7 +17,10 @@ if __name__ == '__main__':
 
         for user in users:
             logging.info("👮‍正在签到账号：" + user["name"])
-            s = AutoSign(user["username"], user["password"], user["sckey"] if user["send_wechat"] else None, **config)
+            s = AutoSign(user["username"], user["password"],
+                         user["sckey"] if user["send_wechat"] else None,
+                         photo=user.get("photo"),
+                         **config)
             s.name = user["name"]
 
             thr = Thread(target=s.sign_tasks_run)

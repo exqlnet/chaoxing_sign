@@ -15,7 +15,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 class AutoSign(object):
 
     def __init__(self, username, password,
-                 sckey, schoolid=None,
+                 sckey="", schoolid=None, photo="",
                  redis_host="redis", redis_db=0, redis_port=6379, redis_pass=None):
         """初始化就进行登录"""
         self.headers = {
@@ -27,6 +27,7 @@ class AutoSign(object):
         self.session.headers = self.headers
         self.username = username
         self.sckey = sckey
+        self.photo = photo
         self.cache = Redis(host=redis_host, db=redis_db, password=redis_pass, port=redis_port)
         if not self.check_cookies_status():
             self.login(password, schoolid, username)
@@ -223,7 +224,7 @@ class AutoSign(object):
             'fid': '',
             'appType': '15',
             'ifTiJiao': '1',
-            'objectId': '5712278eff455f9bcd76a85cd95c5de3'
+            'objectId': self.photo,
         }
         res = self.session.get('https://mobilelearn.chaoxing.com/pptSign/stuSignajax', params=params)
         if "失败" in res.text:
