@@ -89,6 +89,8 @@ docker-compose up -d
 
 ![](./static/cx_web.png)
 
+扫码签到前端代码仓库：[exqlnet/chaoxing_sign_fe](https://github.com/exqlnet/chaoxing_sign_fe)
+
 
 ## 其他脚本推荐
 
