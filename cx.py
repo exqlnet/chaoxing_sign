@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+
 import urllib3
 import asyncio
 import re
@@ -97,26 +98,27 @@ class AutoSign(object):
     def sign_success(self, checkin):
         key = self.username + "_activeid"
         self.cache.sadd(key, checkin["activeid"])
-        desp = f'**🐂课程名**：{checkin["classname"]}	\r'
-        desp += f'**🍻签到时间**：{datetime.now()}	\r'
-        desp += f'**✊签到状态**：{"签到成功"}	\r'
-        desp += f'**👋签到账号**：{self.username}	\r'
-        desp += f'**👮签到类型**：{checkin["sign_type"]}'
+        desp = f'**🐂 课程名**：{checkin["classname"]}	\r'
+        desp += f'**🍻 签到时间**：{datetime.now()}	\r'
+        desp += f'**✊ 签到状态**：{"签到成功"}	\r'
+        desp += f'**👋 签到账号**：{self.username}	\r'
+        desp += f'**👮 签到类型**：{checkin["sign_type"]}'
         self.server_chan_send(desp)
 
     def get_all_classid(self) -> list:
         """获取课程主页中所有课程的classid和courseid"""
         r = self.session.get(
-            'http://mooc1-2.chaoxing.com/visit/interaction',
+            'http://mooc2-ans.chaoxing.com/visit/courses/list',
             headers=self.headers)
         soup = BeautifulSoup(r.text, "html.parser")
-        course_list = soup.select("li.courseItem")
+        course_list = soup.select("li.course")
         class_course_list = []
         for course in course_list:
-            class_name = course.select("div.Mconright.httpsClass > h3 > a")[0].text
-            course_id = course.select("input[type=hidden]:nth-child(1)")[0].get("value")
-            class_id = course.select("input[type=hidden]:nth-child(2)")[0].get("value")
+            class_name = course.select("div.course-info > h3 > a")[0].text
+            course_id = course.select("input.courseId")[0].get("value")
+            class_id = course.select("input.clazzId")[0].get("value")
             class_course_list.append([course_id, class_id, class_name])
+
         return class_course_list
 
     async def get_activeid(self, classid, courseid, classname):
