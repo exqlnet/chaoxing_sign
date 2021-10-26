@@ -1,9 +1,14 @@
 [
   {
-    "name": "exqlnet",
-    "username": "<username>",
-    "password": "<password>",
+    "name": "张三",
+    "username": "12345678",
+    "password": "12345678",
     "sckey": "<sckey>",
+    "location": {
+      "address": "江西省南昌市南昌大学",
+      "longitude": 115.802394,
+      "latitude": 28.663779
+    },
     "send_wechat": true
   }
 ]
