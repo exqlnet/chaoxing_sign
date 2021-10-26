@@ -15,7 +15,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 class AutoSign(object):
 
-    def __init__(self, username, password,
+    def __init__(self, username, password,location,
                  sckey="", schoolid=None, photo="",
                  redis_host="redis", redis_db=0, redis_port=6379, redis_pass=None):
         """初始化就进行登录"""
@@ -29,6 +29,7 @@ class AutoSign(object):
         self.username = username
         self.sckey = sckey
         self.photo = photo
+        self.location = location
         self.cache = Redis(host=redis_host, db=redis_db, password=redis_pass, port=redis_port)
         if not self.check_cookies_status():
             self.login(password, schoolid, username)
@@ -98,11 +99,11 @@ class AutoSign(object):
     def sign_success(self, checkin):
         key = self.username + "_activeid"
         self.cache.sadd(key, checkin["activeid"])
-        desp = f'**🐂 课程名**：{checkin["classname"]}	\r'
-        desp += f'**🍻 签到时间**：{datetime.now()}	\r'
-        desp += f'**✊ 签到状态**：{"签到成功"}	\r'
-        desp += f'**👋 签到账号**：{self.username}	\r'
-        desp += f'**👮 签到类型**：{checkin["sign_type"]}'
+        desp = f'🐂 课程名：{checkin["classname"]}	\r'
+        desp += f'🍻 签到时间：{datetime.now()}	\r'
+        desp += f'✊ 签到状态：{"签到成功"}	\r'
+        desp += f'👋 签到账号：{self.username}	\r'
+        desp += f'👮 签到类型：{checkin["sign_type"]}'
         self.server_chan_send(desp)
 
     def get_all_classid(self) -> list:
@@ -176,11 +177,11 @@ class AutoSign(object):
         params = {
             'name': '',
             'activeId': activeId,
-            'address': '',
+            'address': self.location["address"],
             'uid': '',
             'clientip': '0.0.0.0',
-            'longitude': '0',
-            'latitude': '0',
+            'longitude': self.location["longitude"],
+            'latitude': self.location["latitude"],
             'fid': '',
             'appType': '15',
             'ifTiJiao': '1'

@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
         for user in users:
             logging.info("👮‍正在签到账号：" + user["name"])
-            s = AutoSign(user["username"], user["password"],
+            s = AutoSign(user["username"], user["password"], user.get("location"),
                          user["sckey"] if user["send_wechat"] else None,
                          photo=user.get("photo"),
                          **config)
