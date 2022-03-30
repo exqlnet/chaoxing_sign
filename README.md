@@ -23,7 +23,7 @@
 1. 克隆代码到服务器
 
 ```
-git clone https://github.com/ncuhome/chaoxing 
+git clone https://github.com/ncuhome/chaoxing_signin
 ```
 
 2. 编辑 `account.json` 按格式添加你的账号
@@ -37,6 +37,11 @@ git clone https://github.com/ncuhome/chaoxing
     "sckey": "SCU*****",
     "send_wechat": true,
     "api_key": "随机字符串" // 可选的，可以用于代扫码签到
+    "location": {
+      "address": "江西省南昌市南昌大学",
+      "longitude": 115.802394,
+      "latitude": 28.663779
+    },
   }
 ]
 ```
